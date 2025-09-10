@@ -1,0 +1,26 @@
+# Define the order of stages (stages run in this order)
+stages:
+  - lint
+  - test
+
+# Lint job
+lint:
+  stage: lint # job belongs to the "lint" stage
+  image: node:20 # runs inside this Docker image (Node 20)
+  script: # list of shell commands the runner will execute
+    - npm install
+    - npm run lint
+  only: # when to run this job
+    - merge_requests
+    - branches
+
+# Unit tests job
+unit_tests:
+  stage: test
+  image: node:20
+  script:
+    - npm install
+    - npm test
+  only:
+    - merge_requests
+    - branches
